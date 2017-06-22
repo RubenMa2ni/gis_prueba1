@@ -7,9 +7,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/theme/default/style.min.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/OpenLayers.min.js"></script>
 
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key= AIzaSyAWGV-uEDtw1I-Oo3jOEaWhd9rTifR_0VE &callback=initMap"
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key= AIzaSyAWGV-uEDtw1I-Oo3jOEaWhd9rTifR_0VE &callback=initMap"
   type="text/javascript"></script>
 
+	<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js"></script>
 
 <style type="text/css">
 	html, body{
@@ -61,11 +62,38 @@
 
 		map.addLayers([layerGoogleHibrido, layerGoogleSatelital, layerGoogleTerrain]);
 			
+		// capa stamen
+		var layerStamen = new OpenLayers.Layer.Stamen("toner");
+		map.addLayer(layerStamen);
+
+		// capa MapBox
+		var mapboxLayer = new OpenLayers.Layer.XYZ('MapBox', [
+
+		    "http://b.tiles.mapbox.com/v3/isawnyu.map-knmctlkh/${z}/${x}/${y}.png",
+        	"http://c.tiles.mapbox.com/v3/isawnyu.map-knmctlkh/${z}/${x}/${y}.png",
+        	"http://d.tiles.mapbox.com/v3/isawnyu.map-knmctlkh/${z}/${x}/${y}.png"
+		    ], {
+        sphericalMercator: true,
+        	//tileSize: new OpenLayers.Size([512, 512]),
+        wrapDateLine: true,
+    	numZoomLevels: 19
+	    });
+
+	    map.addLayer(mapboxLayer);
+
 
 		// Control de cambio de Capas
 		var controlCapas = new OpenLayers.Control.LayerSwitcher();
 		map.addControl(controlCapas);
 
+		// control de posicion del cursor
+		var controlCursor = new OpenLayers.Control.MousePosition();
+		map.addControl(controlCursor);
+
+		// control ventana pequeña emergente
+		var controlOverview = new OpenLayers.Control.OverviewMap();
+		map.addControl(controlOverview);
+	
         map.zoomToMaxExtent();
 
 	}
