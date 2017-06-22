@@ -81,6 +81,16 @@
 
 	    map.addLayer(mapboxLayer);
 
+	    // utilizando servicio WMS
+	     var departamentos_wms = new OpenLayers.Layer.WMS(
+	        "Sub-Cuencas de Bolivia",
+            "http://geo.gob.bo/geoserver/wms",
+            {layers: 'subcuencas'},
+            {isBaselayer: false, 
+             transparent: true
+            });
+
+	     map.addLayer(departamentos_wms);
 
 		// Control de cambio de Capas
 		var controlCapas = new OpenLayers.Control.LayerSwitcher();
