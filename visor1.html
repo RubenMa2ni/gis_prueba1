@@ -7,6 +7,10 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/theme/default/style.min.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/openlayers/2.12/OpenLayers.min.js"></script>
 
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key= AIzaSyAWGV-uEDtw1I-Oo3jOEaWhd9rTifR_0VE &callback=initMap"
+  type="text/javascript"></script>
+
+
 <style type="text/css">
 	html, body{
 		height: 100%;
@@ -35,6 +39,7 @@
 		var controlNavegacion = new OpenLayers.Control.Navigation();
 		var controlZoom = new OpenLayers.Control.PanZoomBar();
 
+		// Propiedades del objeto Map
 		var propiedades = {
 			projection : proyeccion,
 			unit : 'm',
@@ -42,11 +47,26 @@
 
 		}
 
+		//Creación de una instancia de la clase Map
 		var map = new OpenLayers.Map("mapa", propiedades);
 
 		  // capa OSM
 		var layerOSM = new OpenLayers.Layer.OSM();
-		map.addLayer(layerOSM);  
+		map.addLayer(layerOSM);
+
+		// Capa Google
+		var layerGoogleSatelital = new OpenLayers.Layer.Google("Google Satelital",{type:google.maps.MapTypeId.SATELLITE});
+		var layerGoogleHibrido = new OpenLayers.Layer.Google("Google Hidrido",{type:google.maps.MapTypeId.HYBRID});
+		var layerGoogleTerrain = new OpenLayers.Layer.Google("Google Terrain",{type:google.maps.MapTypeId.TERRAIN});
+
+		map.addLayers([layerGoogleHibrido, layerGoogleSatelital, layerGoogleTerrain]);
+			
+
+		// Control de cambio de Capas
+		var controlCapas = new OpenLayers.Control.LayerSwitcher();
+		map.addControl(controlCapas);
+
+        map.zoomToMaxExtent();
 
 	}
 	    // cargando la funcion init, para mostrar el mapa
