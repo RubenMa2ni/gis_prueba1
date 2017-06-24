@@ -36,7 +36,7 @@
 <script type="text/javascript">
 	var init = function(){
 
-		var proyeccion = new OpenLayers.Projection("EPSG:4326");
+		var proyeccion = new OpenLayers.Projection("EPSG:900913");
 		var controlNavegacion = new OpenLayers.Control.Navigation();
 		var controlZoom = new OpenLayers.Control.PanZoomBar();
 
@@ -82,6 +82,7 @@
 	    map.addLayer(mapboxLayer);
 
 	    // utilizando servicio WMS
+	    /*
 	     var departamentos_wms = new OpenLayers.Layer.WMS(
 	        "Sub-Cuencas de Bolivia",
             "http://geo.gob.bo/geoserver/wms",
@@ -91,6 +92,20 @@
             });
 
 	     map.addLayer(departamentos_wms);
+			*/
+
+		// layer WMS desde geoserver local
+			
+			var layerLapaz = new OpenLayers.Layer.WMS(
+				"Mapa Eólico",
+				"http://192.168.42.33:8080/geoserver/wms",
+				{
+					layers: 'curso-gis:depto_lapaz',
+					transparent: true
+				}
+			);
+			map.addLayer(layerLapaz);
+
 
 		// Control de cambio de Capas
 		var controlCapas = new OpenLayers.Control.LayerSwitcher();
