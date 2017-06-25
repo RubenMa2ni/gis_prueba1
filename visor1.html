@@ -106,6 +106,36 @@
 			);
 			map.addLayer(layerLapaz);
 
+		// layer utilizando JSON	
+			var layerJson = new OpenLayers.Layer.Vector(
+				"Capa Uyuni-json",
+				{
+					projection: new OpenLayers.Projection("EPSG:4326"),
+					strategies: [new OpenLayers.Strategy.Fixed()],
+
+					protocol: new OpenLayers.Protocol.HTTP({
+						url: './salar_uyuni.json',
+						format: new OpenLayers.Format.GeoJSON()
+					})
+				}
+			);
+			map.addLayer(layerJson);
+
+			// layer utilizando GEOJSON	
+			var layerJsonYungas = new OpenLayers.Layer.Vector(
+				"Capa Lim-Yungas",
+				{
+					projection: new OpenLayers.Projection("EPSG:4326"),
+					strategies: [new OpenLayers.Strategy.Fixed()],
+
+					protocol: new OpenLayers.Protocol.HTTP({
+						url: './lim_yungas.geojson',
+						format: new OpenLayers.Format.GeoJSON()
+					})
+				}
+			);
+			map.addLayer(layerJsonYungas);
+
 
 		// Control de cambio de Capas
 		var controlCapas = new OpenLayers.Control.LayerSwitcher();
@@ -119,7 +149,17 @@
 		var controlOverview = new OpenLayers.Control.OverviewMap();
 		map.addControl(controlOverview);
 	
-        map.zoomToMaxExtent();
+			// Configuración para mostrar la región de Bolivia
+			// Lon: -64.819336, Lat: -17.379999
+			var LonLat = new OpenLayers.LonLat(-64.819336, -17.379999);
+			var zoom = 5;
+			var LonLatTransformado = LonLat.transform(
+				new OpenLayers.Projection("EPSG:4326"),
+				map.getProjection() // new OpenLayers.Projection("EPSG:900913")
+			);
+			map.setCenter(LonLatTransformado, zoom);
+
+        //map.zoomToMaxExtent();
 
 	}
 	    // cargando la funcion init, para mostrar el mapa
